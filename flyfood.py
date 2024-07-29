@@ -4,6 +4,7 @@ arquivos_coordenadas.close()
 
 matriz = []
 pontos_entrega = {}
+permut = []
 
 for linha in texto:
     matriz.append(linha.split())
@@ -30,4 +31,24 @@ def gerar_permutacao(lista):
 perm = gerar_permutacao(pontos_ordenados)
 for per in perm:
     permutacao_completa = ["R"] + per + ["R"]
+    permut.append(permutacao_completa)
     print(permutacao_completa)
+
+
+def calculo_distancia(coordenadas, rotas_permutadas):
+    menor_custo = float("inf")
+    melhor_caminho = " "
+    for r in rotas_permutadas:
+        custo_total = 0
+        for i in range(len(r)- 1):
+            xa, ya = coordenadas[r[i]]
+            xb, yb = coordenadas[r[i + 1]]
+            custo_total += abs(xa - xb) + abs(ya - yb)
+        if custo_total < menor_custo:
+            menor_custo = custo_total
+            melhor_caminho = " ".join(r)
+    return f"A menor rota seria {melhor_caminho}, custando um total de {menor_custo} drônometros"
+
+
+dist = calculo_distancia(pontos_entrega, permut)
+print(dist)
